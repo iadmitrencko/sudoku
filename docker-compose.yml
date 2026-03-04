@@ -1,0 +1,9 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: env/php/Dockerfile
+    container_name: sudoku_php
+    volumes:
+      - .:/var/www/html
+    restart: unless-stopped
