@@ -21,15 +21,22 @@ final class Cell
     public function __construct(?int $value = null)
     {
         if ($value !== null && ($value < 1 || $value > 9)) {
-            throw new InvalidCellValueException();
+            throw new InvalidCellValueException(sprintf('Cell value must be between 1 and 9, %d given.', $value));
         }
 
         $this->value = $value;
         $this->candidates = $value !== null ? [] : range(1, 9);
     }
 
+    /**
+     * @throws InvalidCellValueException
+     */
     public function setValue(int $value): void
     {
+        if ($value < 1 || $value > 9) {
+            throw new InvalidCellValueException(sprintf('Cell value must be between 1 and 9, %d given.', $value));
+        }
+
         $this->value = $value;
         $this->candidates = [];
     }
