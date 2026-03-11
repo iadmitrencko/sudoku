@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sudoku\Tests\Base\ValueObject;
 
+use Faker\Factory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Sudoku\Base\Exception\InvalidCellValueException;
 use Sudoku\Base\ValueObject\Cell;
@@ -35,16 +37,17 @@ final class CellTest extends TestCase
      */
     public function testConstructorWithValidValueStoresIt(): void
     {
-        $cell = new Cell(5);
+        $value = Factory::create()->numberBetween(1, 9);
+        $cell = new Cell($value);
 
-        self::assertSame(5, $cell->getValue());
+        self::assertSame($value, $cell->getValue());
         self::assertFalse($cell->isEmpty());
     }
 
     /**
      * @throws Throwable
      */
-    #[\PHPUnit\Framework\Attributes\DataProvider('validValues')]
+    #[DataProvider('validValues')]
     public function testConstructorAcceptsAllValidValues(int $value): void
     {
         $cell = new Cell($value);
@@ -60,7 +63,7 @@ final class CellTest extends TestCase
         return array_map(static fn(int $v) => [$v], range(1, 9));
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('invalidValues')]
+    #[DataProvider('invalidValues')]
     public function testConstructorRejectsInvalidValue(int $value): void
     {
         $this->expectException(InvalidCellValueException::class);
