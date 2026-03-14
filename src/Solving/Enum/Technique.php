@@ -20,6 +20,7 @@ enum Technique: string
     case HiddenTriple = 'hidden_triple';
     case HiddenQuad = 'hidden_quad';
     case XWing = 'x_wing';
+    case Skyscraper = 'skyscraper';
     case XyWing = 'xy_wing';
     case XyzWing = 'xyz_wing';
     case Swordfish = 'swordfish';
