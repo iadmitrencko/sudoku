@@ -18,8 +18,9 @@ final class Cell
     /**
      * @throws InvalidCellValueException
      */
-    public function __construct(?int $value = null)
-    {
+    public function __construct(
+        ?int $value = null
+    ) {
         if ($value !== null && ($value < 1 || $value > 9)) {
             throw new InvalidCellValueException(sprintf('Cell value must be between 1 and 9, %d given.', $value));
         }

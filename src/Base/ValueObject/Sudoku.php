@@ -20,8 +20,9 @@ final class Sudoku
      * @throws InvalidSudokuException
      * @throws InvalidCellValueException
      */
-    public function __construct(array $grid)
-    {
+    public function __construct(
+        array $grid,
+    ) {
         $this->validate($grid);
 
         $this->grid = array_map(
