@@ -17,6 +17,11 @@ final class NakedSingleResolver implements ResolverInterface
         return Technique::NakedSingle;
     }
 
+    public function getPriority(): int
+    {
+        return 4;
+    }
+
     public function resolve(Sudoku $sudoku): array
     {
         $resolved = [];

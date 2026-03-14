@@ -17,6 +17,11 @@ final class RowSingleCandidateResolver implements ResolverInterface
         return Technique::RowSingleCandidate;
     }
 
+    public function getPriority(): int
+    {
+        return 10;
+    }
+
     public function resolve(Sudoku $sudoku): array
     {
         $resolved = [];

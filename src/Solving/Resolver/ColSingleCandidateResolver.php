@@ -17,6 +17,11 @@ final class ColSingleCandidateResolver implements ResolverInterface
         return Technique::ColSingleCandidate;
     }
 
+    public function getPriority(): int
+    {
+        return 8;
+    }
+
     public function resolve(Sudoku $sudoku): array
     {
         $resolved = [];

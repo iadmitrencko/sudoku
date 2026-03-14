@@ -27,11 +27,13 @@ final class SudokuSolver
     public function solve(Sudoku $sudoku): SolvingResult
     {
         $log = [];
+        $resolvers = iterator_to_array($this->resolvers);
+        usort($resolvers, static fn(ResolverInterface $a, ResolverInterface $b) => $b->getPriority() <=> $a->getPriority());
 
         do {
             $resolvedCount = 0;
 
-            foreach ($this->resolvers as $resolver) {
+            foreach ($resolvers as $resolver) {
                 $coordinates = $resolver->resolve($sudoku);
 
                 foreach ($coordinates as $coordinate) {

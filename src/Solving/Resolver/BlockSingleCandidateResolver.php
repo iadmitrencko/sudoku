@@ -17,6 +17,11 @@ final class BlockSingleCandidateResolver implements ResolverInterface
         return Technique::BlockSingleCandidate;
     }
 
+    public function getPriority(): int
+    {
+        return 6;
+    }
+
     public function resolve(Sudoku $sudoku): array
     {
         $resolved = [];

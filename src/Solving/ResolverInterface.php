@@ -14,6 +14,8 @@ interface ResolverInterface
 {
     public function getTechnique(): Technique;
 
+    public function getPriority(): int;
+
     /**
      * @throws InvalidCellValueException
      * @throws InvalidCoordinateException

@@ -18,6 +18,11 @@ final class HiddenSingleResolver implements ResolverInterface
         return Technique::HiddenSingle;
     }
 
+    public function getPriority(): int
+    {
+        return 2;
+    }
+
     public function resolve(Sudoku $sudoku): array
     {
         $resolved = [];
