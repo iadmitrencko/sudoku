@@ -21,5 +21,6 @@ enum Technique: string
     case HiddenQuad = 'hidden_quad';
     case XWing = 'x_wing';
     case XyWing = 'xy_wing';
+    case XyzWing = 'xyz_wing';
     case Swordfish = 'swordfish';
 }
