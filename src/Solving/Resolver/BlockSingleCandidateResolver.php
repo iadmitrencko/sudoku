@@ -9,8 +9,6 @@ use Sudoku\Base\ValueObject\Coordinate;
 use Sudoku\Base\ValueObject\Sudoku;
 use Sudoku\Solving\Enum\Technique;
 use Sudoku\Solving\ResolverInterface;
-use Sudoku\Solving\ValueObject\ResolutionLog;
-use Sudoku\Solving\ValueObject\ResolvedCell;
 
 final class BlockSingleCandidateResolver implements ResolverInterface
 {
@@ -19,8 +17,10 @@ final class BlockSingleCandidateResolver implements ResolverInterface
         return Technique::BlockSingleCandidate;
     }
 
-    public function resolve(Sudoku $sudoku, ResolutionLog $log): void
+    public function resolve(Sudoku $sudoku): array
     {
+        $resolved = [];
+
         for ($block = 0; $block < 9; $block++) {
             $cells = $sudoku->getBlock($block);
             $emptyCells = array_filter($cells, static fn(Cell $cell) => $cell->isEmpty());
@@ -30,16 +30,16 @@ final class BlockSingleCandidateResolver implements ResolverInterface
             }
 
             $indexInBlock = array_key_first($emptyCells);
-            $value = $this->findMissingValue($cells);
-
             $startRow = intdiv($block, 3) * 3;
             $startCol = ($block % 3) * 3;
             $row = $startRow + intdiv($indexInBlock, 3);
             $col = $startCol + ($indexInBlock % 3);
 
-            $emptyCells[$indexInBlock]->setValue($value);
-            $log->add(new ResolvedCell(new Coordinate($row, $col), Technique::BlockSingleCandidate));
+            $emptyCells[$indexInBlock]->setValue($this->findMissingValue($cells));
+            $resolved[] = new Coordinate($row, $col);
         }
+
+        return $resolved;
     }
 
     /**
