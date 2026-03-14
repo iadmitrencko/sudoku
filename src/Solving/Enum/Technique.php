@@ -10,4 +10,5 @@ enum Technique: string
     case ColSingleCandidate = 'col_single_candidate';
     case BlockSingleCandidate = 'block_single_candidate';
     case NakedSingle = 'naked_single';
+    case HiddenSingle = 'hidden_single';
 }
