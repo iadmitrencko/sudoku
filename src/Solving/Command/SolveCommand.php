@@ -118,10 +118,11 @@ final class SolveCommand extends Command
         foreach ($result->getLog() as $i => $resolved) {
             $coordinate = $resolved->getCoordinate();
             $output->writeln(sprintf(
-                '%d. [%d,%d] — %s',
+                '%d. [%d,%d] = %d — %s',
                 $i + 1,
                 $coordinate->getRow(),
                 $coordinate->getCol(),
+                $resolved->getValue(),
                 $resolved->getTechnique()->value,
             ));
         }

@@ -37,7 +37,8 @@ final class SudokuSolver
                 $coordinates = $resolver->resolve($sudoku);
 
                 foreach ($coordinates as $coordinate) {
-                    $log[] = new ResolvedCell($coordinate, $resolver->getTechnique());
+                    $value = $sudoku->getRow($coordinate->getRow())[$coordinate->getCol()]->getValue();
+                    $log[] = new ResolvedCell($coordinate, $resolver->getTechnique(), $value);
                     $resolvedCount++;
                 }
             }

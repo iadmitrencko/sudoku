@@ -12,6 +12,7 @@ final class ResolvedCell
     public function __construct(
         private readonly Coordinate $coordinate,
         private readonly Technique $technique,
+        private readonly int $value,
     ) {
     }
 
@@ -23,5 +24,10 @@ final class ResolvedCell
     public function getTechnique(): Technique
     {
         return $this->technique;
+    }
+
+    public function getValue(): int
+    {
+        return $this->value;
     }
 }
