@@ -100,8 +100,16 @@ final class SolveCommand extends Command
         $output->writeln($result->getSudoku()->isSolved() ? 'Судоку вирішено!' : 'Судоку не вирішено повністю.');
         $output->writeln('');
 
-        foreach ($result->getSudoku()->toGrid() as $row) {
-            $output->writeln(implode(' ', array_map(static fn(?int $v) => $v ?? '.', $row)));
+        $separator = '------+-------+------';
+        foreach ($result->getSudoku()->toGrid() as $rowIndex => $row) {
+            if ($rowIndex > 0 && $rowIndex % 3 === 0) {
+                $output->writeln($separator);
+            }
+            $cells = array_map(static fn(?int $v) => $v ?? '.', $row);
+            $output->writeln(sprintf(
+                '%s %s %s | %s %s %s | %s %s %s',
+                ...$cells,
+            ));
         }
 
         $output->writeln('');
