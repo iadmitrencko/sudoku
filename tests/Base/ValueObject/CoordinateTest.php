@@ -18,8 +18,8 @@ final class CoordinateTest extends TestCase
     {
         $coordinate = new Coordinate(3, 7);
 
-        self::assertSame(3, $coordinate->row);
-        self::assertSame(7, $coordinate->col);
+        self::assertSame(3, $coordinate->getRow());
+        self::assertSame(7, $coordinate->getCol());
     }
 
     #[DataProvider('validCoordinatesProvider')]
@@ -27,8 +27,8 @@ final class CoordinateTest extends TestCase
     {
         $coordinate = new Coordinate($row, $col);
 
-        self::assertSame($row, $coordinate->row);
-        self::assertSame($col, $coordinate->col);
+        self::assertSame($row, $coordinate->getRow());
+        self::assertSame($col, $coordinate->getCol());
     }
 
     /**
