@@ -21,7 +21,9 @@ enum Technique: string
     case HiddenQuad = 'hidden_quad';
     case XWing = 'x_wing';
     case Skyscraper = 'skyscraper';
+    case TwoStringKite = 'two_string_kite';
     case XyWing = 'xy_wing';
     case XyzWing = 'xyz_wing';
     case Swordfish = 'swordfish';
+    case SimpleColoring = 'simple_coloring';
 }
