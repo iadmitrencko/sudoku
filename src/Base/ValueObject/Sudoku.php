@@ -64,6 +64,17 @@ final class Sudoku
         return $cells;
     }
 
+    /**
+     * @return array<int, array<int, int|null>>
+     */
+    public function toGrid(): array
+    {
+        return array_map(
+            static fn(array $row) => array_map(static fn(Cell $cell) => $cell->getValue(), $row),
+            $this->grid,
+        );
+    }
+
     public function isSolved(): bool
     {
         for ($i = 0; $i < 9; $i++) {
