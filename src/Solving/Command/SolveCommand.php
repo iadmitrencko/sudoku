@@ -26,19 +26,71 @@ final class SolveCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        // Заповни сітку: null — порожня ячейка, 1-9 — задане значення
+        // Заповни блоки: null — порожня ячейка, 1-9 — задане значення
+        $b0 = [
+            [null, null, null],
+            [null, null, null],
+            [null, null, null],
+        ];
+
+        $b1 = [
+            [null, null, null],
+            [null, null, null],
+            [null, null, null],
+        ];
+
+        $b2 = [
+            [null, null, null],
+            [null, null, null],
+            [null, null, null],
+        ];
+
+        $b3 = [
+            [null, null, null],
+            [null, null, null],
+            [null, null, null],
+        ];
+
+        $b4 = [
+            [null, null, null],
+            [null, null, null],
+            [null, null, null],
+        ];
+
+        $b5 = [
+            [null, null, null],
+            [null, null, null],
+            [null, null, null],
+        ];
+
+        $b6 = [
+            [null, null, null],
+            [null, null, null],
+            [null, null, null],
+        ];
+
+        $b7 = [
+            [null, null, null],
+            [null, null, null],
+            [null, null, null],
+        ];
+
+        $b8 = [
+            [null, null, null],
+            [null, null, null],
+            [null, null, null],
+        ];
+
         $grid = [
-            [null, null, null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null, null],
-
-            [null, null, null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null, null],
-
-            [null, null, null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null, null],
+            [...$b0[0], ...$b1[0], ...$b2[0]],
+            [...$b0[1], ...$b1[1], ...$b2[1]],
+            [...$b0[2], ...$b1[2], ...$b2[2]],
+            [...$b3[0], ...$b4[0], ...$b5[0]],
+            [...$b3[1], ...$b4[1], ...$b5[1]],
+            [...$b3[2], ...$b4[2], ...$b5[2]],
+            [...$b6[0], ...$b7[0], ...$b8[0]],
+            [...$b6[1], ...$b7[1], ...$b8[1]],
+            [...$b6[2], ...$b7[2], ...$b8[2]],
         ];
 
         $sudoku = new Sudoku($grid);
