@@ -13,4 +13,5 @@ enum Technique: string
     case HiddenSingle = 'hidden_single';
     case LockedCandidatesPointing = 'locked_candidates_pointing';
     case LockedCandidatesClaiming = 'locked_candidates_claiming';
+    case NakedPair = 'naked_pair';
 }
