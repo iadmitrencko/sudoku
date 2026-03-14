@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sudoku\Solving\Command;
 
 use Sudoku\Base\ValueObject\Sudoku;
+use Sudoku\Solving\BruteForceSudokuSolver;
 use Sudoku\Solving\SudokuSolver;
 use Sudoku\Solving\ValueObject\EliminationEntry;
 use Sudoku\Solving\ValueObject\ResolvedCell;
@@ -19,6 +20,7 @@ final class SolveCommand extends Command
 {
     public function __construct(
         private readonly SudokuSolver $solver,
+        private readonly BruteForceSudokuSolver $bruteForceSolver,
     ) {
         parent::__construct();
     }
@@ -96,7 +98,7 @@ final class SolveCommand extends Command
         ];
 
         $sudoku = new Sudoku($grid);
-        $result = $this->solver->solve($sudoku);
+        $result = $this->bruteForceSolver->solve($sudoku);
 
         $output->writeln(sprintf('Вирішено ячейок: %d', count($result->getResolutions())));
         $output->writeln($result->getSudoku()->isSolved() ? 'Судоку вирішено!' : 'Судоку не вирішено повністю.');

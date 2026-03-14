@@ -26,4 +26,5 @@ enum Technique: string
     case XyzWing = 'xyz_wing';
     case Swordfish = 'swordfish';
     case SimpleColoring = 'simple_coloring';
+    case Backtracking = 'backtracking';
 }
