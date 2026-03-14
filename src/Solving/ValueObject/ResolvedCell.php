@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sudoku\CellResolver\ValueObject;
+namespace Sudoku\Solving\ValueObject;
 
 use Sudoku\Base\ValueObject\Coordinate;
-use Sudoku\CellResolver\Enum\Technique;
+use Sudoku\Solving\Enum\Technique;
 
 final class ResolvedCell
 {

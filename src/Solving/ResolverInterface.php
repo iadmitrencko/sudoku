@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sudoku\CellResolver;
+namespace Sudoku\Solving;
 
 use Sudoku\Base\ValueObject\Sudoku;
-use Sudoku\CellResolver\Enum\Technique;
-use Sudoku\CellResolver\ValueObject\ResolutionLog;
+use Sudoku\Solving\Enum\Technique;
+use Sudoku\Solving\ValueObject\ResolutionLog;
 
 interface ResolverInterface
 {

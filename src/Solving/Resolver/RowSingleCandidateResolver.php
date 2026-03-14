@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Sudoku\CellResolver\Resolver;
+namespace Sudoku\Solving\Resolver;
 
 use Sudoku\Base\ValueObject\Cell;
 use Sudoku\Base\ValueObject\Coordinate;
 use Sudoku\Base\ValueObject\Sudoku;
-use Sudoku\CellResolver\Enum\Technique;
-use Sudoku\CellResolver\ResolverInterface;
-use Sudoku\CellResolver\ValueObject\ResolutionLog;
-use Sudoku\CellResolver\ValueObject\ResolvedCell;
+use Sudoku\Solving\Enum\Technique;
+use Sudoku\Solving\ResolverInterface;
+use Sudoku\Solving\ValueObject\ResolutionLog;
+use Sudoku\Solving\ValueObject\ResolvedCell;
 
 final class RowSingleCandidateResolver implements ResolverInterface
 {

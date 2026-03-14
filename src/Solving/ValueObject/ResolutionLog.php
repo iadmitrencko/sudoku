@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sudoku\CellResolver\ValueObject;
+namespace Sudoku\Solving\ValueObject;
 
 final class ResolutionLog
 {

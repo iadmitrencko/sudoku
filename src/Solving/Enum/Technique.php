@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sudoku\CellResolver\Enum;
+namespace Sudoku\Solving\Enum;
 
 enum Technique: string
 {
