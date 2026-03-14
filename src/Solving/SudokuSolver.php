@@ -27,6 +27,9 @@ final class SudokuSolver
         $resolvers = iterator_to_array($this->resolvers);
         usort($resolvers, static fn(ResolverInterface $a, ResolverInterface $b) => $b->getPriority() <=> $a->getPriority());
 
+        $eliminators = iterator_to_array($this->eliminators);
+        usort($eliminators, static fn(EliminatorInterface $a, EliminatorInterface $b) => $b->getPriority() <=> $a->getPriority());
+
         $this->initCandidates($sudoku);
 
         do {
@@ -42,7 +45,7 @@ final class SudokuSolver
             }
 
             if (!$progress) {
-                foreach ($this->eliminators as $eliminator) {
+                foreach ($eliminators as $eliminator) {
                     $entries = $eliminator->eliminate($sudoku);
                     if ($entries !== []) {
                         array_push($steps, ...$entries);

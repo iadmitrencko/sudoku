@@ -10,6 +10,8 @@ use Sudoku\Solving\ValueObject\EliminationEntry;
 
 interface EliminatorInterface
 {
+    public function getPriority(): int;
+
     /**
      * @return EliminationEntry[]
      *

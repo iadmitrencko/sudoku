@@ -18,7 +18,7 @@ final class NakedSingleResolver implements ResolverInterface
 
     public function getPriority(): int
     {
-        return 4;
+        return 20;
     }
 
     /**

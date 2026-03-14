@@ -19,7 +19,7 @@ final class ColSingleCandidateResolver implements ResolverInterface
 
     public function getPriority(): int
     {
-        return 8;
+        return 40;
     }
 
     public function resolve(Sudoku $sudoku): array

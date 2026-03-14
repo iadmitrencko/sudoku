@@ -19,7 +19,7 @@ final class RowSingleCandidateResolver implements ResolverInterface
 
     public function getPriority(): int
     {
-        return 10;
+        return 50;
     }
 
     public function resolve(Sudoku $sudoku): array

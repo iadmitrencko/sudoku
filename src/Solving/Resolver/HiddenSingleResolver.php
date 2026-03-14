@@ -18,7 +18,7 @@ final class HiddenSingleResolver implements ResolverInterface
 
     public function getPriority(): int
     {
-        return 2;
+        return 10;
     }
 
     public function resolve(Sudoku $sudoku): array

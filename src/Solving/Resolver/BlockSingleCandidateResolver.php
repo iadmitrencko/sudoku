@@ -19,7 +19,7 @@ final class BlockSingleCandidateResolver implements ResolverInterface
 
     public function getPriority(): int
     {
-        return 6;
+        return 30;
     }
 
     public function resolve(Sudoku $sudoku): array
