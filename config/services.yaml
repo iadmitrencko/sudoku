@@ -15,7 +15,10 @@ services:
     _instanceof:
         Sudoku\Solving\ResolverInterface:
             tags: ['sudoku.resolver']
+        Sudoku\Solving\EliminatorInterface:
+            tags: ['sudoku.eliminator']
 
     Sudoku\Solving\SudokuSolver:
         arguments:
             $resolvers: !tagged_iterator sudoku.resolver
+            $eliminators: !tagged_iterator sudoku.eliminator
