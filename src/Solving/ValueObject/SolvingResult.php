@@ -9,11 +9,11 @@ use Sudoku\Base\ValueObject\Sudoku;
 final class SolvingResult
 {
     /**
-     * @param ResolvedCell[] $log
+     * @param array<ResolvedCell|EliminationEntry> $steps
      */
     public function __construct(
         private readonly Sudoku $sudoku,
-        private readonly array $log,
+        private readonly array $steps,
     ) {
     }
 
@@ -23,10 +23,18 @@ final class SolvingResult
     }
 
     /**
+     * @return array<ResolvedCell|EliminationEntry>
+     */
+    public function getSteps(): array
+    {
+        return $this->steps;
+    }
+
+    /**
      * @return ResolvedCell[]
      */
-    public function getLog(): array
+    public function getResolutions(): array
     {
-        return $this->log;
+        return array_values(array_filter($this->steps, static fn($s) => $s instanceof ResolvedCell));
     }
 }

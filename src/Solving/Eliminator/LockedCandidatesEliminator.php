@@ -4,29 +4,31 @@ declare(strict_types=1);
 
 namespace Sudoku\Solving\Eliminator;
 
+use Sudoku\Base\Exception\InvalidCoordinateException;
+use Sudoku\Base\ValueObject\Coordinate;
 use Sudoku\Base\ValueObject\Sudoku;
 use Sudoku\Solving\EliminatorInterface;
+use Sudoku\Solving\Enum\Technique;
+use Sudoku\Solving\ValueObject\EliminationEntry;
 
 final class LockedCandidatesEliminator implements EliminatorInterface
 {
-    public function eliminate(Sudoku $sudoku): bool
+    public function eliminate(Sudoku $sudoku): array
     {
-        $eliminated = false;
-
-        if ($this->pointing($sudoku)) {
-            $eliminated = true;
-        }
-
-        if ($this->claiming($sudoku)) {
-            $eliminated = true;
-        }
-
-        return $eliminated;
+        return array_merge(
+            $this->pointing($sudoku),
+            $this->claiming($sudoku),
+        );
     }
 
-    private function pointing(Sudoku $sudoku): bool
+    /**
+     * @return EliminationEntry[]
+     *
+     * @throws InvalidCoordinateException
+     */
+    private function pointing(Sudoku $sudoku): array
     {
-        $eliminated = false;
+        $entries = [];
 
         for ($block = 0; $block < 9; $block++) {
             $startRow = intdiv($block, 3) * 3;
@@ -58,7 +60,7 @@ final class LockedCandidatesEliminator implements EliminatorInterface
                         $cell = $sudoku->getRow($row)[$c];
                         if ($cell->isEmpty() && in_array($num, $cell->getCandidates(), true)) {
                             $cell->removeCandidate($num);
-                            $eliminated = true;
+                            $entries[] = new EliminationEntry(new Coordinate($row, $c), $num, Technique::LockedCandidatesPointing);
                         }
                     }
                 }
@@ -73,19 +75,28 @@ final class LockedCandidatesEliminator implements EliminatorInterface
                         $cell = $sudoku->getRow($r)[$col];
                         if ($cell->isEmpty() && in_array($num, $cell->getCandidates(), true)) {
                             $cell->removeCandidate($num);
-                            $eliminated = true;
+                            $entries[] = new EliminationEntry(
+                                new Coordinate($r, $col),
+                                $num,
+                                Technique::LockedCandidatesPointing,
+                            );
                         }
                     }
                 }
             }
         }
 
-        return $eliminated;
+        return $entries;
     }
 
-    private function claiming(Sudoku $sudoku): bool
+    /**
+     * @return EliminationEntry[]
+     *
+     * @throws InvalidCoordinateException
+     */
+    private function claiming(Sudoku $sudoku): array
     {
-        $eliminated = false;
+        $entries = [];
 
         for ($row = 0; $row < 9; $row++) {
             for ($num = 1; $num <= 9; $num++) {
@@ -117,7 +128,7 @@ final class LockedCandidatesEliminator implements EliminatorInterface
                         $cell = $sudoku->getRow($r)[$c];
                         if ($cell->isEmpty() && in_array($num, $cell->getCandidates(), true)) {
                             $cell->removeCandidate($num);
-                            $eliminated = true;
+                            $entries[] = new EliminationEntry(new Coordinate($r, $c), $num, Technique::LockedCandidatesClaiming);
                         }
                     }
                 }
@@ -154,13 +165,13 @@ final class LockedCandidatesEliminator implements EliminatorInterface
                         $cell = $sudoku->getRow($r)[$c];
                         if ($cell->isEmpty() && in_array($num, $cell->getCandidates(), true)) {
                             $cell->removeCandidate($num);
-                            $eliminated = true;
+                            $entries[] = new EliminationEntry(new Coordinate($r, $c), $num, Technique::LockedCandidatesClaiming);
                         }
                     }
                 }
             }
         }
 
-        return $eliminated;
+        return $entries;
     }
 }

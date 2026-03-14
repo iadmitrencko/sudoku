@@ -23,7 +23,7 @@ final class SudokuSolver
 
     public function solve(Sudoku $sudoku): SolvingResult
     {
-        $log = [];
+        $steps = [];
         $resolvers = iterator_to_array($this->resolvers);
         usort($resolvers, static fn(ResolverInterface $a, ResolverInterface $b) => $b->getPriority() <=> $a->getPriority());
 
@@ -36,21 +36,23 @@ final class SudokuSolver
                 foreach ($resolver->resolve($sudoku) as $coordinate) {
                     $value = $sudoku->getRow($coordinate->getRow())[$coordinate->getCol()]->getValue();
                     $this->propagateCandidates($sudoku, $coordinate->getRow(), $coordinate->getCol(), $value);
-                    $log[] = new ResolvedCell($coordinate, $resolver->getTechnique(), $value);
+                    $steps[] = new ResolvedCell($coordinate, $resolver->getTechnique(), $value);
                     $progress = true;
                 }
             }
 
             if (!$progress) {
                 foreach ($this->eliminators as $eliminator) {
-                    if ($eliminator->eliminate($sudoku)) {
+                    $entries = $eliminator->eliminate($sudoku);
+                    if ($entries !== []) {
+                        array_push($steps, ...$entries);
                         $progress = true;
                     }
                 }
             }
         } while ($progress && !$sudoku->isSolved());
 
-        return new SolvingResult($sudoku, $log);
+        return new SolvingResult($sudoku, $steps);
     }
 
     private function initCandidates(Sudoku $sudoku): void
