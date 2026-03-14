@@ -12,6 +12,11 @@ use Sudoku\Solving\ValueObject\EliminationEntry;
 
 final class HiddenPairEliminator implements EliminatorInterface
 {
+    public function getPriority(): int
+    {
+        return 60;
+    }
+
     /**
      * @return EliminationEntry[]
      */

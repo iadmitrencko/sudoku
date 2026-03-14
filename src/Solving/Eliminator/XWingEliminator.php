@@ -12,6 +12,11 @@ use Sudoku\Solving\ValueObject\EliminationEntry;
 
 final class XWingEliminator implements EliminatorInterface
 {
+    public function getPriority(): int
+    {
+        return 30;
+    }
+
     /**
      * @return EliminationEntry[]
      */

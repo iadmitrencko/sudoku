@@ -12,6 +12,11 @@ use Sudoku\Solving\ValueObject\EliminationEntry;
 
 final class ClaimingEliminator implements EliminatorInterface
 {
+    public function getPriority(): int
+    {
+        return 80;
+    }
+
     /**
      * @return EliminationEntry[]
      */

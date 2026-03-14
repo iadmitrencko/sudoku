@@ -12,6 +12,11 @@ use Sudoku\Solving\ValueObject\EliminationEntry;
 
 final class SwordfishEliminator implements EliminatorInterface
 {
+    public function getPriority(): int
+    {
+        return 10;
+    }
+
     /**
      * @return EliminationEntry[]
      */

@@ -12,6 +12,11 @@ use Sudoku\Solving\ValueObject\EliminationEntry;
 
 final class HiddenTripleEliminator implements EliminatorInterface
 {
+    public function getPriority(): int
+    {
+        return 40;
+    }
+
     /**
      * @return EliminationEntry[]
      */

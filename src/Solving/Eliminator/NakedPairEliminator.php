@@ -12,6 +12,11 @@ use Sudoku\Solving\ValueObject\EliminationEntry;
 
 final class NakedPairEliminator implements EliminatorInterface
 {
+    public function getPriority(): int
+    {
+        return 70;
+    }
+
     public function eliminate(Sudoku $sudoku): array
     {
         $entries = [];
