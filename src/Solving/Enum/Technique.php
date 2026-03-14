@@ -16,6 +16,7 @@ enum Technique: string
     case NakedPair = 'naked_pair';
     case HiddenPair = 'hidden_pair';
     case NakedTriple = 'naked_triple';
+    case NakedQuad = 'naked_quad';
     case HiddenTriple = 'hidden_triple';
     case XWing = 'x_wing';
     case XyWing = 'xy_wing';
