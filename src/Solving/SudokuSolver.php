@@ -13,10 +13,10 @@ use Sudoku\Solving\ValueObject\SolvingResult;
 final class SudokuSolver
 {
     /**
-     * @param ResolverInterface[] $resolvers
+     * @param iterable<ResolverInterface> $resolvers
      */
     public function __construct(
-        private readonly array $resolvers,
+        private readonly iterable $resolvers,
     ) {
     }
 
