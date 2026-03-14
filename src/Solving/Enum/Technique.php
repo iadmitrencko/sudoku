@@ -15,4 +15,9 @@ enum Technique: string
     case LockedCandidatesClaiming = 'locked_candidates_claiming';
     case NakedPair = 'naked_pair';
     case HiddenPair = 'hidden_pair';
+    case NakedTriple = 'naked_triple';
+    case HiddenTriple = 'hidden_triple';
+    case XWing = 'x_wing';
+    case XyWing = 'xy_wing';
+    case Swordfish = 'swordfish';
 }
