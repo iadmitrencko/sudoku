@@ -1,0 +1,21 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Sudoku\:
+        resource: '../src/'
+        exclude:
+            - '../src/Kernel.php'
+            - '../src/Base/ValueObject/'
+            - '../src/Base/Exception/'
+            - '../src/Solving/ValueObject/'
+            - '../src/Solving/Enum/'
+
+    _instanceof:
+        Sudoku\Solving\ResolverInterface:
+            tags: ['sudoku.resolver']
+
+    Sudoku\Solving\SudokuSolver:
+        arguments:
+            $resolvers: !tagged_iterator sudoku.resolver

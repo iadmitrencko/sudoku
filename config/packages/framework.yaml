@@ -1,0 +1,4 @@
+framework:
+    secret: '%env(APP_SECRET)%'
+    cache:
+        app: cache.adapter.filesystem
