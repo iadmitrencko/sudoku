@@ -6,6 +6,8 @@ namespace Sudoku\Solving\Command;
 
 use Sudoku\Base\ValueObject\Sudoku;
 use Sudoku\Solving\SudokuSolver;
+use Sudoku\Solving\ValueObject\EliminationEntry;
+use Sudoku\Solving\ValueObject\ResolvedCell;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -96,7 +98,7 @@ final class SolveCommand extends Command
         $sudoku = new Sudoku($grid);
         $result = $this->solver->solve($sudoku);
 
-        $output->writeln(sprintf('Вирішено ячейок: %d', count($result->getLog())));
+        $output->writeln(sprintf('Вирішено ячейок: %d', count($result->getResolutions())));
         $output->writeln($result->getSudoku()->isSolved() ? 'Судоку вирішено!' : 'Судоку не вирішено повністю.');
         $output->writeln('');
 
@@ -115,16 +117,28 @@ final class SolveCommand extends Command
         $output->writeln('');
         $output->writeln('Послідовність:');
 
-        foreach ($result->getLog() as $i => $resolved) {
-            $coordinate = $resolved->getCoordinate();
-            $output->writeln(sprintf(
-                '%d. [%d,%d] = %d — %s',
-                $i + 1,
-                $coordinate->getRow(),
-                $coordinate->getCol(),
-                $resolved->getValue(),
-                $resolved->getTechnique()->value,
-            ));
+        $stepNumber = 0;
+        foreach ($result->getSteps() as $step) {
+            if ($step instanceof ResolvedCell) {
+                $coordinate = $step->getCoordinate();
+                $output->writeln(sprintf(
+                    '%d. [%d,%d] = %d — %s',
+                    ++$stepNumber,
+                    $coordinate->getRow(),
+                    $coordinate->getCol(),
+                    $step->getValue(),
+                    $step->getTechnique()->value,
+                ));
+            } elseif ($step instanceof EliminationEntry) {
+                $coordinate = $step->getCoordinate();
+                $output->writeln(sprintf(
+                    '   ~ [%d,%d] виключено %d — %s',
+                    $coordinate->getRow(),
+                    $coordinate->getCol(),
+                    $step->getValue(),
+                    $step->getTechnique()->value,
+                ));
+            }
         }
 
         return Command::SUCCESS;
