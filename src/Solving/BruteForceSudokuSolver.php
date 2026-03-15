@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sudoku\Solving;
 
+use Sudoku\Base\Exception\InvalidCellValueException;
+use Sudoku\Base\Exception\InvalidCoordinateException;
 use Sudoku\Base\ValueObject\Coordinate;
 use Sudoku\Base\ValueObject\Sudoku;
 use Sudoku\Solving\Enum\Technique;
@@ -12,6 +14,10 @@ use Sudoku\Solving\ValueObject\SolvingResult;
 
 final class BruteForceSudokuSolver
 {
+    /**
+     * @throws InvalidCellValueException
+     * @throws InvalidCoordinateException
+     */
     public function solve(Sudoku $sudoku): SolvingResult
     {
         $grid = $sudoku->toGrid();
