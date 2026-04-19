@@ -7,3 +7,5 @@ CLAUDE.md
 /.env.local.php
 /.env.*.local
 /public/bundles/
+/frontend/node_modules/
+/frontend/package-lock.json

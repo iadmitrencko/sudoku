@@ -47,8 +47,11 @@ export default function App() {
   const [solvedCells, setSolvedCells] = useState(new Set());
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [selectedCell, setSelectedCell] = useState(null);
 
   const conflicts = getConflicts(grid);
+
+  const isSelectedGiven = selectedCell !== null && givenCells.has(selectedCell);
 
   const handleChange = useCallback((row, col, value) => {
     if (solvedCells.has(`${row},${col}`) && givenCells.has(`${row},${col}`)) return;
@@ -90,6 +93,30 @@ export default function App() {
     }
   }, [givenCells]);
 
+  const handleNumpadDigit = useCallback((digit) => {
+    if (!selectedCell || isSelectedGiven) return;
+    const [r, c] = selectedCell.split(',').map(Number);
+    setGrid((prev) => {
+      const next = prev.map((row) => [...row]);
+      next[r][c] = String(digit);
+      return next;
+    });
+    setSolvedCells(new Set());
+    setError(null);
+  }, [selectedCell, isSelectedGiven]);
+
+  const handleClearCell = useCallback(() => {
+    if (!selectedCell || isSelectedGiven) return;
+    const [r, c] = selectedCell.split(',').map(Number);
+    setGrid((prev) => {
+      const next = prev.map((row) => [...row]);
+      next[r][c] = '';
+      return next;
+    });
+    setSolvedCells(new Set());
+    setError(null);
+  }, [selectedCell, isSelectedGiven]);
+
   const handleSolve = async () => {
     if (conflicts.size > 0) {
       setError('Виправте конфлікти перед розв\'язанням.');
@@ -100,7 +127,6 @@ export default function App() {
       row.map((v) => (v === '' ? 0 : parseInt(v, 10)))
     );
 
-    // Track which cells had values before solving
     const given = new Set();
     grid.forEach((row, r) =>
       row.forEach((v, c) => {
@@ -142,12 +168,15 @@ export default function App() {
     }
   };
 
-  const handleClear = () => {
+  const handleClearAll = () => {
     setGrid(EMPTY_GRID());
     setGivenCells(new Set());
     setSolvedCells(new Set());
+    setSelectedCell(null);
     setError(null);
   };
+
+  const numpadDisabled = !selectedCell || isSelectedGiven;
 
   return (
     <div style={styles.container}>
@@ -162,6 +191,7 @@ export default function App() {
             const isConflict = conflicts.has(key);
             const blockRight = c === 2 || c === 5;
             const blockBottom = r === 2 || r === 5;
+            const isSelected = selectedCell === key;
 
             return (
               <input
@@ -173,18 +203,51 @@ export default function App() {
                 readOnly={isGiven}
                 onChange={(e) => handleChange(r, c, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(e, r, c)}
+                onFocus={() => setSelectedCell(key)}
+                onBlur={() => setSelectedCell(null)}
                 style={{
                   ...styles.cell,
                   ...(isGiven ? styles.cellGiven : {}),
                   ...(isSolved ? styles.cellSolved : {}),
                   ...(isConflict ? styles.cellConflict : {}),
+                  ...(isSelected ? styles.cellSelected : {}),
                   borderRight: blockRight ? '2px solid #334155' : '1px solid #94a3b8',
                   borderBottom: blockBottom ? '2px solid #334155' : '1px solid #94a3b8',
+                  caretColor: isSelected ? '#2563eb' : 'transparent',
                 }}
               />
             );
           })
         )}
+      </div>
+
+      <div style={styles.numpad}>
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => (
+          <button
+            key={d}
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => handleNumpadDigit(d)}
+            disabled={numpadDisabled}
+            style={{
+              ...styles.numpadBtn,
+              ...(numpadDisabled ? styles.numpadBtnDisabled : {}),
+            }}
+          >
+            {d}
+          </button>
+        ))}
+        <button
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={handleClearCell}
+          disabled={numpadDisabled}
+          style={{
+            ...styles.numpadBtn,
+            ...styles.numpadBtnErase,
+            ...(numpadDisabled ? styles.numpadBtnDisabled : {}),
+          }}
+        >
+          ⌫
+        </button>
       </div>
 
       {error && <div style={styles.error}>{error}</div>}
@@ -203,8 +266,8 @@ export default function App() {
             'Розв\'язати'
           )}
         </button>
-        <button onClick={handleClear} style={{ ...styles.btn, ...styles.btnSecondary }}>
-          Очистити
+        <button onClick={handleClearAll} style={{ ...styles.btn, ...styles.btnSecondary }}>
+          Очистити все
         </button>
       </div>
 
@@ -261,7 +324,13 @@ const styles = {
     outline: 'none',
     cursor: 'text',
     caretColor: 'transparent',
-    transition: 'background 0.15s',
+    transition: 'background 0.15s, box-shadow 0.1s',
+  },
+  cellSelected: {
+    background: '#eff6ff',
+    boxShadow: 'inset 0 0 0 2px #2563eb',
+    zIndex: 1,
+    position: 'relative',
   },
   cellGiven: {
     background: '#dbeafe',
@@ -274,6 +343,32 @@ const styles = {
   cellConflict: {
     background: '#fee2e2',
     color: '#dc2626',
+  },
+  numpad: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(5, 60px)',
+    gap: 8,
+  },
+  numpadBtn: {
+    width: 60,
+    height: 60,
+    fontSize: 24,
+    fontWeight: 600,
+    border: '1px solid #cbd5e1',
+    borderRadius: 8,
+    background: '#f8fafc',
+    color: '#1e293b',
+    cursor: 'pointer',
+    transition: 'background 0.1s, border-color 0.1s',
+  },
+  numpadBtnErase: {
+    color: '#dc2626',
+    borderColor: '#fca5a5',
+    background: '#fff5f5',
+  },
+  numpadBtnDisabled: {
+    opacity: 0.35,
+    cursor: 'not-allowed',
   },
   error: {
     padding: '10px 20px',
