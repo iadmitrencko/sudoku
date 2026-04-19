@@ -199,6 +199,7 @@ export default function App() {
                 id={`cell-${r}-${c}`}
                 type="text"
                 inputMode="numeric"
+                autoComplete="off"
                 value={value}
                 readOnly={isGiven}
                 onChange={(e) => handleChange(r, c, e.target.value)}
