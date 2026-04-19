@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://igord.test/sitemap.xml
